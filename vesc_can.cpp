@@ -1,9 +1,11 @@
 #include "vesc_can.h"
+#include "buffer.h"
+#include <FlexCAN_T4.h>
 
 
 
 // Global CANBUS variables
-FlexCAN CAN(500000);
+FlexCAN_T4<CAN3, RX_SIZE_256, TX_SIZE_16> CAN;
 
 //Can processing examples
 int can_idle = 0;
@@ -15,6 +17,7 @@ can_status_msg stat_msgs[CAN_STATUS_MSGS_TO_STORE];
 
 void vesc_can_begin() {
   CAN.begin();
+  CAN.setBaudRate(250000);
 }
 
 void vesc_can_set_duty(uint8_t controller_id, float duty) {
@@ -78,7 +81,7 @@ int vesc_can_read() {
   if (!CAN.read(inMsg)) {
     return 0; // if the message cant be read return 0
   }
-  if (inMsg.ext == 1) {
+  if (inMsg.flags.extended) {
     uint8_t id = inMsg.id & 0xFF; //take the lower 8 bits for the ID
     CAN_PACKET_ID cmd = (CAN_PACKET_ID) (inMsg.id >> 8); // Take the upper bits as the comand
     switch (cmd) {
@@ -183,7 +186,7 @@ bool sendPacket(uint8_t id, uint8_t packet[], int32_t len) {
   msg.id = id;
   msg.len = len;
   memcpy(msg.buf, packet, len * sizeof(uint8_t));
-  msg.timeout = 0;
+  //msg.timeout = 0;
   return (bool) CAN.write(msg);
 }
 
