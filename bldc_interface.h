@@ -20,6 +20,10 @@
 
 #include "datatypes.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // interface functions
 void bldc_interface_init(void(*func)(unsigned char *data, unsigned int len));
 void bldc_interface_set_forward_can(int32_t vesc_id);
@@ -69,5 +73,9 @@ void bldc_interface_send_alive(void);
 
 // Helpers
 const char* bldc_interface_fault_to_string(mc_fault_code fault);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 
 #endif /* BLDC_INTERFACE_H_ */
