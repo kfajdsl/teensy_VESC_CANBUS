@@ -88,38 +88,22 @@ typedef enum {
 	CAN_PACKET_MAKE_ENUM_32_BITS = 0xFFFFFFFF,
 } CAN_PACKET_ID;
 
+// TODO implement other can status messages
 typedef struct {
-	int id;
 	float rpm;
 	float current;
 	float duty;
-} can_status_msg;
-
-typedef struct {
-	int id;
-	float amp_hours;
-	float amp_hours_charged;
-} can_status_msg_2;
-
-typedef struct {
-	int id;
-	float watt_hours;
-	float watt_hours_charged;
-} can_status_msg_3;
-
-typedef struct {
-	int id;
-	float temp_fet;
-	float temp_motor;
-	float current_in;
-	float pid_pos_now;
-} can_status_msg_4;
-
-typedef struct {
-  int id;
-  float v_in;
-  int32_t tacho_value;
-} can_status_msg_5;
+	//float amp_hours;
+	//float amp_hours_charged;
+	//float watt_hours;
+	//float watt_hours_charged;
+	//float temp_fet;
+	//float temp_motor;
+	//float current_in;
+	//float pid_pos_now;
+    //float v_in;
+    //int32_t tacho_value;
+} node_status;
 
 #ifdef __cplusplus
 }
