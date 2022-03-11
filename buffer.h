@@ -46,6 +46,6 @@ float buffer_get_float32(const uint8_t *buffer, float scale, int32_t *index);
 
 #ifdef __cplusplus
 }
-#endif // __cplusplus
+#endif
 
 #endif /* BUFFER_H_ */
