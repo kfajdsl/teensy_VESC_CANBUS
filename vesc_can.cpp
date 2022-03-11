@@ -32,19 +32,16 @@ void vesc_can_begin() {
 
 bool vesc_can_read() {
   CAN_message_t  msg;
-  unsigned int rxbuf_len;
-  unsigned int rxbuf_ind;
-  uint8_t crc_low;
-  uint8_t crc_high;
-
-  int32_t ind;
   if (!CAN.read(msg)) {
     return false; // if the message cant be read return 0
   }
 
+
   if (msg.flags.extended) {
     uint8_t id = msg.id & 0xFF; //take the lower 8 bits for the ID
     CAN_PACKET_ID cmd = (CAN_PACKET_ID) (msg.id >> 8); // Take the upper bits as the comand
+
+    int32_t ind;
     switch (cmd) {
     case CAN_PACKET_STATUS: 
         ind = 0;
