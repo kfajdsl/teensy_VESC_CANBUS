@@ -34,25 +34,25 @@ void vesc_can_begin() {
 }
 
 bool vesc_can_read() {
-  CAN_message_t  inMsg;
+  CAN_message_t  msg;
   unsigned int rxbuf_len;
   unsigned int rxbuf_ind;
   uint8_t crc_low;
   uint8_t crc_high;
 
   int32_t ind;
-  if (!CAN.read(inMsg)) {
+  if (!CAN.read(msg)) {
     return false; // if the message cant be read return 0
   }
-  if (inMsg.flags.extended) {
-    uint8_t id = inMsg.id & 0xFF; //take the lower 8 bits for the ID
-    CAN_PACKET_ID cmd = (CAN_PACKET_ID) (inMsg.id >> 8); // Take the upper bits as the comand
+  if (msg.flags.extended) {
+    uint8_t id = msg.id & 0xFF; //take the lower 8 bits for the ID
+    CAN_PACKET_ID cmd = (CAN_PACKET_ID) (msg.id >> 8); // Take the upper bits as the comand
     switch (cmd) {
         ind = 0;
         status_msg.id = id;
-        status_msg.rpm = (float)buffer_get_int32(inMsg.buf, &ind);
-        status_msg.current = (float)buffer_get_int16(inMsg.buf, &ind) / 10.0;
-        status_msg.duty = (float)buffer_get_int16(inMsg.buf, &ind) / 1000.0;
+        status_msg.rpm = (float)buffer_get_int32(msg.buf, &ind);
+        status_msg.current = (float)buffer_get_int16(msg.buf, &ind) / 10.0;
+        status_msg.duty = (float)buffer_get_int16(msg.buf, &ind) / 1000.0;
         break;
       default:
         break;
